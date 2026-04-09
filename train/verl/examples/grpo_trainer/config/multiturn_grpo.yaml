@@ -1,0 +1,9 @@
+# ppo_trainer.yaml 상속받음
+
+hydra:
+  searchpath:
+    - file://verl/trainer/config
+
+defaults:
+  - ppo_trainer
+  - _self_

@@ -1,0 +1,28 @@
+# Data
+data/
+*.json
+*.jsonl
+*.xlsx
+*.csv
+*.pkl
+*.jpg
+*.png
+
+# Model
+models/
+
+# Weights and checkpoints
+*.ckpt
+*.pth
+*.pt
+*.bin
+*.safetensors
+save_checkpoints/
+
+# etc.
+wandb/
+outputs/
+cache/
+ray_tmp/
+tmp_cache/
+eval_result/

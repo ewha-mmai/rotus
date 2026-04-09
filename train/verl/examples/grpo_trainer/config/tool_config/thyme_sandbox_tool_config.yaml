@@ -1,0 +1,20 @@
+tools:
+  - class_name: "verl.tools.thyme_sandbox_tool.ThymeSandboxTool"
+    config:
+      type: native
+      cache_dir: "${oc.env:THYME_CACHE_DIR,/tmp/thyme_sandbox_cache}"
+      exec_time_limit: 10
+      max_images_per_round: 10
+    tool_schema:
+      type: "function"
+      function:
+        name: "python_interpreter"
+        description: "Execute Python code for image manipulation. Results will be wrapped in <sandbox_output> tags."
+        parameters:
+          type: "object"
+          properties:
+            code:
+              type: "string"
+              description: "The Python code to execute."
+          required: ["code"]
+
