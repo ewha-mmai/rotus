@@ -14,7 +14,7 @@ Hyemin Boo, Yeongeun Byeon, Jiyoung Lee
 # Environment
 
 ## Training
-Training runs inside Docker — no separate environment setup needed. See the [Docker Setup](#docker-setup) section below.
+Training runs inside Docker — no separate environment setup needed. See the [Docker Setup](#step-3-docker-setup) section below.
 
 ## Judge Server & Inference
 
@@ -285,13 +285,15 @@ Evaluation uses GPT as a judge. Set your OpenAI API key before running.
 python eval/evaluate_results.py submit \
     --input_path results_cof.jsonl \
     --out_dir eval_output/ \
-    --api_key $OPENAI_API_KEY
+    --api_key $OPENAI_API_KEY \
+    --judge_model gpt-5-mini
 
 # Collect results after batch completes
 python eval/evaluate_results.py collect \
     --input_path results_cof.jsonl \
     --out_dir eval_output/ \
     --api_key $OPENAI_API_KEY \
+    --judge_model gpt-5-mini \
     --batch_id <batch_id>
 ```
 
