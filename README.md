@@ -85,27 +85,9 @@ Download and store all pretrained weights under `/models/`:
 | Rotus-DeepEyesV2 | coming soon |
 | Rotus-Thyme | coming soon |
 
-```
-/models/
-  ├── Chain-of-Focus/
-  │   └── CoF-rl-model-7b/          ← base model
-  ├── Rotus-CoF/                  ← Rotus-trained weights
-  ├── DeepEyesV2/
-  │   └── DeepEyesV2_7B_1031/       ← base model
-  ├── Rotus-DeepEyesV2/           ← Rotus-trained weights
-  ├── Thyme/
-  │   └── Thyme-RL/                  ← base model
-  ├── Rotus-Thyme/                   ← Rotus-trained weights
-  └── Qwen2.5-72B-Instruct-AWQ/     ← judge server
-```
+The judge server uses [Qwen2.5-72B-Instruct-AWQ](https://huggingface.co/Qwen/Qwen2.5-72B-Instruct-AWQ) for reward evaluation. Download it alongside the model weights above.
 
-Training requires the following components to be running before starting:
-
-| Component | Required for |
-|---|---|
-| Judge Server | All models |
-| Sandbox Server | DeepEyesV2 only |
-| Training container (Docker) | All models |
+> **Note:** The sandbox server is only required for DeepEyesV2 training.
 
 ## Step 1. Judge Server
 
@@ -134,13 +116,12 @@ docker stop deepeyes-v2 && docker rm deepeyes-v2
 docker run -d \
   -v /path/to/data:/data1 \
   -p 28901-28904:18901-18904 \
-  --add-host=host.docker.internal:172.17.0.1 \
   --name deepeyes-v2 \
   chenshawn6915/multimodal-ipython-sandbox:oss-v2
 
 # Verify
 docker ps | grep deepeyes-v2
-curl -X POST http://127.0.0.1:8000/run_jupyter \
+curl -X POST http://127.0.0.1:28901/run_jupyter \
   -H "Content-Type: application/json" \
   -d '{"session_id": "test123", "code": "print(\"hello\")", "timeout": 10}' \
   --max-time 5
@@ -155,7 +136,7 @@ docker cp scripts/patch_jupyter.py deepeyes-v2:/tmp/patch_jupyter.py
 docker exec deepeyes-v2 python /tmp/patch_jupyter.py
 
 # Verify
-curl -s -X POST http://127.0.0.1:8000/run_jupyter \
+curl -s -X POST http://127.0.0.1:28901/run_jupyter \
   -H "Content-Type: application/json" \
   -d '{"session_id": "check1", "code": "print(1)", "timeout": 5}'
 ```

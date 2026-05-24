@@ -296,6 +296,8 @@ def compute_score(
     extra_info: Optional[Dict] = None,
     tool_tag: Optional[str] = None,
     max_assistant_turns: Optional[int] = None,
+    optimal_tool_calls: Optional[int] = None,
+    penalty_lambda: Optional[float] = None,
     **kwargs
 ) -> Dict[str, float]:
     extra_info = extra_info or {}
@@ -304,8 +306,13 @@ def compute_score(
     tool_tag = tool_tag or extra_info.get('tool_tag', 'tool_call')
 
     max_turns = int(max_assistant_turns) if max_assistant_turns is not None else 5
-    optimal_tool_calls = max_turns // 2
-    if "tool_call_penalty" in (extra_info or {}):
+    if optimal_tool_calls is not None:
+        optimal_tool_calls = int(optimal_tool_calls)
+    else:
+        optimal_tool_calls = max_turns // 2
+    if penalty_lambda is not None:
+        penalty_rate = float(penalty_lambda)
+    elif "tool_call_penalty" in (extra_info or {}):
         penalty_rate = float(extra_info["tool_call_penalty"])
     else:
         penalty_rate = 1.0 / optimal_tool_calls if optimal_tool_calls > 0 else 1.0

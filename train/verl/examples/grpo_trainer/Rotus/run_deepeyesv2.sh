@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export JUDGE_SERVER="${JUDGE_SERVER:-http://localhost:18901/v1}"
-export SANDBOX_URL="${SANDBOX_URL:-http://localhost:8000}"
+export SANDBOX_URL="${SANDBOX_URL:-http://localhost:28901}"
 export CUDA_VISIBLE_DEVICES="0,1,2"
 unset WANDB_RESUME
 

@@ -32,7 +32,6 @@ python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
     data.train_files="${TRAIN_DATA}" \
     data.val_files="${VAL_DATA}" \
-    data.tool_call_penalty=0.1 \
     data.train_batch_size=24 \
     data.max_prompt_length=16384 \
     data.max_response_length=4096 \
@@ -76,6 +75,8 @@ python3 -m verl.trainer.main_ppo \
     custom_reward_function.name="compute_score" \
     +custom_reward_function.reward_kwargs.tool_tag="code" \
     +custom_reward_function.reward_kwargs.max_assistant_turns=5 \
+    +custom_reward_function.reward_kwargs.optimal_tool_calls=2 \
+    +custom_reward_function.reward_kwargs.penalty_lambda=0.1 \
     trainer.critic_warmup=0 \
     trainer.logger='["console","wandb"]' \
     trainer.project_name="${PROJECT_NAME}" \
